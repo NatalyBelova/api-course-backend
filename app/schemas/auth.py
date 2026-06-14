@@ -3,8 +3,8 @@ from pydantic import BaseModel, ConfigDict, EmailStr, Field
 
 class UserResponse(BaseModel):
     id: int = Field(examples=[1])
-    name: str = Field(examples=["Natalie"])
-    email: str = Field(examples=["natalie@example.com"])
+    name: str = Field(examples=["Ivan"])
+    email: str = Field(examples=["ivan@example.com"])
 
     model_config = ConfigDict(from_attributes=True)
 
@@ -12,11 +12,11 @@ class UserResponse(BaseModel):
 class RegisterRequest(BaseModel):
     name: str = Field(
         min_length=2,
-        examples=["Natalie"],
+        examples=["Ivan"],
         description="User name. Must contain at least 2 characters.",
     )
     email: EmailStr = Field(
-        examples=["natalie@example.com"],
+        examples=["ivan@example.com"],
         description="User email. Must be a valid email address and must be unique.",
     )
     password: str = Field(
@@ -28,7 +28,7 @@ class RegisterRequest(BaseModel):
 
 class LoginRequest(BaseModel):
     email: EmailStr = Field(
-        examples=["natalie@example.com"],
+        examples=["ivan@example.com"],
         description="Registered user email.",
     )
     password: str = Field(

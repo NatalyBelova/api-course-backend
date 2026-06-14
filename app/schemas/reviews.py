@@ -5,7 +5,7 @@ from pydantic import BaseModel, ConfigDict, Field
 
 class ReviewUserResponse(BaseModel):
     id: int = Field(examples=[1])
-    name: str = Field(examples=["Natalie"])
+    name: str = Field(examples=["Ivan"])
 
     model_config = ConfigDict(from_attributes=True)
 
