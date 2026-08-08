@@ -33,7 +33,7 @@ router = APIRouter(tags=["Auth"])
         201: {
             "description": "User successfully registered",
         },
-        400: {
+        409: {
             "description": "User with this email already exists",
             "content": {
                 "application/json": {
@@ -54,7 +54,7 @@ def register_user(
 
     if existing_user:
         raise HTTPException(
-            status_code=400,
+            status_code=409,
             detail="User with this email already exists",
         )
 

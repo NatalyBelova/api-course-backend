@@ -30,6 +30,8 @@ class ReviewResponse(BaseModel):
 
 class CreateReviewRequest(BaseModel):
     rating: int = Field(
+        ge=1,
+        le=5,
         examples=[5],
         description="Review rating. Must be between 1 and 5.",
     )

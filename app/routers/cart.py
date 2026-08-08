@@ -106,19 +106,10 @@ def get_cart(
             "description": "Product successfully added to cart",
         },
         400: {
-            "description": "Invalid quantity or not enough stock",
+            "description": "Not enough stock",
             "content": {
                 "application/json": {
-                    "examples": {
-                        "invalid_quantity": {
-                            "summary": "Quantity is zero or negative",
-                            "value": {"detail": "Quantity must be greater than 0"},
-                        },
-                        "not_enough_stock": {
-                            "summary": "Requested quantity exceeds available stock",
-                            "value": {"detail": "Requested quantity exceeds available stock"},
-                        },
-                    }
+                    "example": {"detail": "Requested quantity exceeds available stock"},
                 }
             },
         },
@@ -142,7 +133,7 @@ def get_cart(
             },
         },
         422: {
-            "description": "Validation error. For example, product_id or quantity has invalid type.",
+            "description": "Validation error. For example, product_id has invalid type or quantity is zero/negative.",
         },
     },
 )
@@ -159,9 +150,6 @@ def add_cart_item(
 
     if not product:
         raise HTTPException(status_code=404, detail="Product not found")
-
-    if payload.quantity <= 0:
-        raise HTTPException(status_code=400, detail="Quantity must be greater than 0")
 
     if payload.quantity > product.stock:
         raise HTTPException(
@@ -219,19 +207,10 @@ def add_cart_item(
             "description": "Cart item updated successfully",
         },
         400: {
-            "description": "Invalid quantity or not enough stock",
+            "description": "Not enough stock",
             "content": {
                 "application/json": {
-                    "examples": {
-                        "invalid_quantity": {
-                            "summary": "Quantity is zero or negative",
-                            "value": {"detail": "Quantity must be greater than 0"},
-                        },
-                        "not_enough_stock": {
-                            "summary": "Requested quantity exceeds available stock",
-                            "value": {"detail": "Requested quantity exceeds available stock"},
-                        },
-                    }
+                    "example": {"detail": "Requested quantity exceeds available stock"},
                 }
             },
         },
@@ -255,7 +234,7 @@ def add_cart_item(
             },
         },
         422: {
-            "description": "Validation error. For example, cart_item_id or quantity has invalid type.",
+            "description": "Validation error. For example, cart_item_id has invalid type or quantity is zero/negative.",
         },
     },
 )
@@ -283,9 +262,6 @@ def update_cart_item(
             status_code=403,
             detail="You do not have access to this cart item",
         )
-
-    if payload.quantity <= 0:
-        raise HTTPException(status_code=400, detail="Quantity must be greater than 0")
 
     if payload.quantity > cart_item.product.stock:
         raise HTTPException(

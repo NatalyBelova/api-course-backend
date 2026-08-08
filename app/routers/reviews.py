@@ -84,23 +84,6 @@ def get_product_reviews(
         201: {
             "description": "Review successfully created",
         },
-        400: {
-            "description": "Invalid rating",
-            "content": {
-                "application/json": {
-                    "examples": {
-                        "rating_too_low": {
-                            "summary": "Rating is less than 1",
-                            "value": {"detail": "Rating must be between 1 and 5"},
-                        },
-                        "rating_too_high": {
-                            "summary": "Rating is greater than 5",
-                            "value": {"detail": "Rating must be between 1 and 5"},
-                        },
-                    }
-                }
-            },
-        },
         401: {
             "description": "Missing, invalid or inactive token",
         },
@@ -121,7 +104,7 @@ def get_product_reviews(
             },
         },
         422: {
-            "description": "Validation error. For example, product_id or rating has invalid type.",
+            "description": "Validation error. For example, product_id has invalid type or rating is out of range 1–5.",
         },
     },
 )
@@ -142,9 +125,6 @@ def create_product_review(
 
     if not product:
         raise HTTPException(status_code=404, detail="Product not found")
-
-    if payload.rating < 1 or payload.rating > 5:
-        raise HTTPException(status_code=400, detail="Rating must be between 1 and 5")
 
     existing_review = (
         db.query(Review)

@@ -1,6 +1,13 @@
 from datetime import datetime
+from enum import Enum
 
 from pydantic import BaseModel, ConfigDict, Field
+
+
+class OrderStatus(str, Enum):
+    created = "created"
+    cancelled = "cancelled"
+    completed = "completed"
 
 
 class OrderProductResponse(BaseModel):
@@ -27,7 +34,7 @@ class OrderItemResponse(BaseModel):
 
 class OrderResponse(BaseModel):
     id: int = Field(examples=[1])
-    status: str = Field(
+    status: OrderStatus = Field(
         examples=["created"],
         description="Order status. Possible values: created, cancelled, completed.",
     )
@@ -42,7 +49,7 @@ class OrderResponse(BaseModel):
 
 class OrderListItemResponse(BaseModel):
     id: int = Field(examples=[1])
-    status: str = Field(
+    status: OrderStatus = Field(
         examples=["created"],
         description="Order status. Possible values: created, cancelled, completed.",
     )

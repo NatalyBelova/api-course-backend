@@ -1,6 +1,7 @@
 from fastapi import FastAPI
 
 from app.routers import auth, buggy, cart, orders, products, reviews, test_data
+from app.schemas.system import HealthResponse
 
 tags_metadata = [
     {
@@ -83,6 +84,7 @@ app.include_router(buggy.router)
     tags=["System"],
     summary="Health check",
     description="Returns API status. Use this endpoint to check that the backend is running.",
+    response_model=HealthResponse,
 )
 def health_check():
     return {"status": "ok"}

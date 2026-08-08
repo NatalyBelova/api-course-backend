@@ -30,6 +30,7 @@ class AddCartItemRequest(BaseModel):
         description="Product id from the catalog.",
     )
     quantity: int = Field(
+        gt=0,
         examples=[2],
         description="Product quantity. Must be greater than 0 and cannot exceed product stock.",
     )
@@ -37,6 +38,7 @@ class AddCartItemRequest(BaseModel):
 
 class UpdateCartItemRequest(BaseModel):
     quantity: int = Field(
+        gt=0,
         examples=[3],
         description="New product quantity. Must be greater than 0 and cannot exceed product stock.",
     )
