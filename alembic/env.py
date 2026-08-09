@@ -5,6 +5,7 @@ from sqlalchemy import pool
 
 from alembic import context
 
+from app.config import settings
 from app.database import Base
 from app.models import models
 
@@ -27,6 +28,10 @@ target_metadata = Base.metadata
 # can be acquired:
 # my_important_option = config.get_main_option("my_important_option")
 # ... etc.
+
+# Override sqlalchemy.url from the DATABASE_URL environment variable,
+# taking priority over the value in alembic.ini.
+config.set_main_option("sqlalchemy.url", settings.DATABASE_URL)
 
 
 def run_migrations_offline() -> None:
