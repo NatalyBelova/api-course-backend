@@ -10,6 +10,9 @@ class Settings:
         "DATABASE_URL",
         "postgresql://postgres:postgres@localhost:5432/api_course",
     )
+    DOCS_USERNAME: str = os.getenv("DOCS_USERNAME", "")
+    DOCS_PASSWORD: str = os.getenv("DOCS_PASSWORD", "")
 
 
 settings = Settings()
+
