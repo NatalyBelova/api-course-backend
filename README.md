@@ -42,6 +42,16 @@ OpenAPI schema is available at:
 /openapi.json
 ```
 
+## Production
+
+Public Swagger UI (protected with HTTP Basic Auth — ask the instructor for credentials):
+
+https://api-course-backend-production.up.railway.app/docs
+
+Base URL for API requests:
+
+https://api-course-backend-production.up.railway.app
+
 ## Main API sections
 
 ### System
