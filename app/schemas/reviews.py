@@ -37,6 +37,7 @@ class CreateReviewRequest(BaseModel):
     )
     text: str | None = Field(
         default=None,
+        max_length=500,
+        description="Optional review text. Maximum 500 characters.",
         examples=["Great product"],
-        description="Optional review text.",
     )
