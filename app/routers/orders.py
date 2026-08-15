@@ -15,7 +15,7 @@ def build_order_response(order: Order) -> OrderResponse:
     items = []
 
     for item in order.items:
-        item_total = float(item.price_at_purchase) * item.quantity
+        item_total = round(float(item.price_at_purchase) * item.quantity, 2)
 
         items.append(
             {
@@ -118,7 +118,9 @@ def create_order(
                 detail=f"Not enough stock for product: {product.name}",
             )
 
-        total_price += float(product.price) * cart_item.quantity
+        total_price += round(float(product.price) * cart_item.quantity, 2)
+
+    total_price = round(total_price, 2)
 
     order = Order(
         user_id=current_user.id,

@@ -17,7 +17,7 @@ router = APIRouter(tags=["Cart"])
 
 def build_cart_item_response(cart_item: CartItem) -> CartItemResponse:
     product = cart_item.product
-    item_total = float(product.price) * cart_item.quantity
+    item_total = round(float(product.price) * cart_item.quantity, 2)
 
     return CartItemResponse(
         id=cart_item.id,
@@ -79,7 +79,7 @@ def get_cart(
     )
 
     items = [build_cart_item_response(item) for item in cart_items]
-    total_price = sum(item.item_total for item in items)
+    total_price = round(sum(item.item_total for item in items), 2)
 
     return CartResponse(
         items=items,
