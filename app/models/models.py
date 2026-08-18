@@ -5,7 +5,9 @@ from sqlalchemy import (
     Boolean,
     DateTime,
     ForeignKey,
+    Index,
     Integer,
+    JSON,
     Numeric,
     String,
     Text,
@@ -20,6 +22,18 @@ class OrderStatus(str, Enum):
     created = "created"
     cancelled = "cancelled"
     completed = "completed"
+
+
+class HomeworkPractice(str, Enum):
+    catalog = "catalog"
+    auth = "auth"
+    cart_orders = "cart-orders"
+    reviews_bug_hunting = "reviews-bug-hunting"
+
+
+class HomeworkStatus(str, Enum):
+    passed = "passed"
+    needs_revision = "needs_revision"
 
 
 class User(Base):
@@ -191,25 +205,30 @@ class Review(Base):
 class HomeworkResult(Base):
     __tablename__ = "homework_results"
 
+    __table_args__ = (
+        Index(
+            "ix_homework_results_user_practice_fingerprint",
+            "user_id",
+            "practice",
+            "fingerprint_hash",
+        ),
+    )
+
     id: Mapped[int] = mapped_column(Integer, primary_key=True, index=True)
     user_id: Mapped[int] = mapped_column(ForeignKey("users.id"), nullable=False)
 
-    lesson_id: Mapped[str] = mapped_column(String(100), nullable=False)
-    task_id: Mapped[str] = mapped_column(String(100), nullable=False)
+    practice: Mapped[str] = mapped_column(String(30), nullable=False)
 
-    student_request: Mapped[str | None] = mapped_column(Text, nullable=True)
-    student_response: Mapped[str | None] = mapped_column(Text, nullable=True)
-    ai_result: Mapped[str | None] = mapped_column(Text, nullable=True)
+    submitted_checks: Mapped[dict | list] = mapped_column(JSON, nullable=False)
+    submitted_notes: Mapped[str | None] = mapped_column(Text, nullable=True)
+    fingerprint_hash: Mapped[str] = mapped_column(String(64), nullable=False)
 
-    passed: Mapped[bool] = mapped_column(Boolean, default=False, nullable=False)
-    comment: Mapped[str | None] = mapped_column(Text, nullable=True)
+    status: Mapped[str] = mapped_column(String(20), nullable=False)
+    score: Mapped[int] = mapped_column(Integer, nullable=False)
+    summary: Mapped[str] = mapped_column(Text, nullable=False)
+    criteria_verdicts: Mapped[dict | list] = mapped_column(JSON, nullable=False)
+    auto_accepted: Mapped[bool] = mapped_column(Boolean, default=False, nullable=False)
 
     created_at: Mapped[datetime] = mapped_column(DateTime, default=datetime.utcnow, nullable=False)
-    updated_at: Mapped[datetime] = mapped_column(
-        DateTime,
-        default=datetime.utcnow,
-        onupdate=datetime.utcnow,
-        nullable=False,
-    )
 
     user = relationship("User", back_populates="homework_results")

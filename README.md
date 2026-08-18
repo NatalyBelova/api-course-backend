@@ -183,7 +183,10 @@ Required variable:
 
 ```env
 DATABASE_URL=postgresql://postgres:postgres@localhost:5432/api_course
+OPENAI_API_KEY=sk-...
 ```
+
+`OPENAI_API_KEY` is required for the `/homework/{practice}/submit` endpoint (AI grading of submitted homework checks).
 
 ## Notes
 

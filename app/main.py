@@ -6,7 +6,7 @@ from fastapi.openapi.utils import get_openapi
 from fastapi.security import HTTPBasic, HTTPBasicCredentials
 
 from app.config import settings
-from app.routers import auth, buggy, cart, orders, products, reviews, test_data
+from app.routers import auth, buggy, cart, homework, orders, products, reviews, test_data
 from app.schemas.system import HealthResponse
 
 tags_metadata = [
@@ -46,6 +46,14 @@ tags_metadata = [
         "name": "Reviews",
         "description": (
             "Product review endpoints. GET reviews is public, but creating a review requires authorization."
+        ),
+    },
+    {
+        "name": "Homework",
+        "description": (
+            "AI-graded homework submission. Submit the filled checks table for a practice and "
+            "get back a score, a pass/needs_revision verdict and per-criterion feedback. "
+            "Requires Bearer token authorization."
         ),
     },
     {
@@ -105,6 +113,7 @@ app.include_router(products.router)
 app.include_router(cart.router)
 app.include_router(orders.router)
 app.include_router(reviews.router)
+app.include_router(homework.router)
 app.include_router(test_data.router)
 app.include_router(buggy.router)
 
