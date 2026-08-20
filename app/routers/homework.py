@@ -18,6 +18,7 @@ from app.schemas.homework import (
     HomeworkSubmitResponse,
     validate_min_checks,
 )
+from app.stepik_code import generate_stepik_code
 
 router = APIRouter(tags=["Homework"])
 
@@ -132,6 +133,8 @@ def score_criteria(criteria_verdicts: list[dict]) -> tuple[int, str]:
 
 
 def build_response(record: HomeworkResult, attempts_left: int) -> HomeworkSubmitResponse:
+    code = generate_stepik_code(record.practice) if record.status == "passed" else None
+
     return HomeworkSubmitResponse(
         status=record.status,
         score=record.score,
@@ -139,6 +142,7 @@ def build_response(record: HomeworkResult, attempts_left: int) -> HomeworkSubmit
         criteria=record.criteria_verdicts,
         attempts_left=attempts_left,
         auto_accepted=record.auto_accepted,
+        code=code,
     )
 
 

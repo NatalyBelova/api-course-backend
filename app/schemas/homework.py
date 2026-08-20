@@ -51,6 +51,11 @@ class HomeworkSubmitResponse(BaseModel):
         examples=[False],
         description="True if the submission was accepted automatically because the AI grader was unavailable.",
     )
+    code: str | None = Field(
+        default=None,
+        examples=["A1B2C3D4"],
+        description="Stepik completion code, present only when status is 'passed'.",
+    )
 
 
 def validate_min_checks(practice: str, checks: list[HomeworkCheckItem]) -> None:
